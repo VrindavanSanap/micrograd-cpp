@@ -19,14 +19,21 @@ class Value {
     vector<Value *> out_children;
     out_children.push_back(this);
     out_children.push_back(&other);
-    return Value(this->data + other.data, out_children);
+    Value out(this->data + other.data, out_children);
+
+    out._backward = [this, other, out]() mutable {
+      this->grad += out.grad;
+      other.grad += out.grad;
+    };
+
+    return out;
   }
   // __mul__ Value + Value
   Value operator*(Value &other) {
     vector<Value *> out_children;
     out_children.push_back(this);
     out_children.push_back(&other);
-    Value out(this->data + other.data, out_children);
+    Value out(this->data * other.data, out_children);
 
     out._backward = [this, other, out]() mutable {
       this->grad += out.grad;
