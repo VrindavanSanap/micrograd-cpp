@@ -50,7 +50,7 @@ class Value {
   void backward() {
     vector<Value *> topo;
     set<Value *> visited;
-  }
+  };
 };
 
 int main() {
