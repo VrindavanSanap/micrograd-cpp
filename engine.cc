@@ -122,7 +122,8 @@ class Value {
   }
   // __repr__
   friend std::ostream &operator<<(std::ostream &os, const Value &v) {
-    os << "Value(data=" << v.data << ")";
+    os << "Value(data=" << v.data << ", grad=" << v.grad << ")";
+
     return os;
   }
   void build_topo(Value &v) {
@@ -160,36 +161,45 @@ Value operator/(float other, Value &v) {
 int main() {
   Value a(-4.0);
   Value b(2.0);
+  Value d(3);
   Value c = a + b;
-  // a.backward();
-  cout << c << " " << 1 << endl;
+  c = a;
+  c.backward();
+  // Value a(-4.0);
+  // Value b(2.0);
+  // Value c = a + b;
+  // // a.backward();
+  // cout << c << " " << 1 << endl;
 
-  Value b_p_3 = b.power(3);
-  Value d = a * b + b_p_3;
-  cout << d << " " << 2 << endl;
+  // Value b_p_3 = b.power(3);
+  // Value t5 = a * b;
+  // Value d = t5+b_p_3;
+  
+  // cout << d << " " << 2 << endl;
 
-  c = c + c + 1;
-  cout << c << " " << 3 << endl;
+  // c = c + c + 1;
+  // cout << c << " " << 3 << endl;
 
-  c = c + c + 1 - a;
-  cout << c << " " << 4 << endl;
-  Value t1 = (b + a).relu();
-  d = d * 2 + t1 + d;
+  // c = c + c + 1 - a;
+  // cout << c << " " << 4 << endl;
+  // c.backward();
+  // Value t1 = (b + a).relu();
+  // d = d * 2 + t1 + d;
 
-  cout << d << " " << 5 << endl;
-  Value t2 = (b - a).relu();
-  d = d * 3 + t2 + d;
-  cout << d << " " << 6 << endl;
-  Value e = c - d;
+  // cout << d << " " << 5 << endl;
+  // Value t2 = (b - a).relu();
+  // d = d * 3 + t2 + d;
+  // cout << d << " " << 6 << endl;
+  // Value e = c - d;
 
-  cout << e << " " << 7 << endl;
-  Value f = e.power(2);
-  cout << f << " " << 8 << endl;
-  Value g = f / 2.0;
-  cout << g << " " << 9 << endl;
-  Value t3 = 10.0 / f;
-  g = g + t3;
-  cout << g << " " << 10 << endl;
+  // cout << e << " " << 7 << endl;
+  // Value f = e.power(2);
+  // cout << f << " " << 8 << endl;
+  // Value g = f / 2.0;
+  // cout << g << " " << 9 << endl;
+  // Value t3 = 10.0 / f;
+  // g = g + t3;
+  // cout << g << " " << 10 << endl;
   // f print(f '{g.data:.4f}') #prints 24.7041, the outcome of this forward pass
 
   // cout << a.grad << endl;
